@@ -1,0 +1,80 @@
+# ======================================
+# Django / Python
+# ======================================
+
+# Compilados de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Archivos temporales
+*.log
+*.pot
+*.pyc
+*.tmp
+*.mo
+*.swp
+*.swo
+
+# Entorno virtual
+venv/
+ENV/
+env/
+.venv/
+
+# Archivos de configuración sensibles
+*.env
+.env.*
+
+# ======================================
+# Django
+# ======================================
+
+# Migraciones automáticas (puedes quitar esta regla si quieres versionarlas)
+*/migrations/
+
+# Archivos de la base de datos SQLite (si usaste en local antes de Postgres)
+*.sqlite3
+
+# Archivos estáticos generados
+/staticfiles/
+/media/
+
+# ======================================
+# PostgreSQL
+# ======================================
+
+# Dumps y backups de BD
+*.sql
+*.sql.gz
+*.dump
+*.backup
+
+# ======================================
+# IDEs / Editores
+# ======================================
+
+# VSCode
+.vscode/
+.code-workspace
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# Otros
+*.sublime-project
+*.sublime-workspace
+
+# ======================================
+# Sistema Operativo
+# ======================================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
