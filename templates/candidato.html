@@ -1,99 +1,81 @@
-<!doctype html>
-
 {% load static %}
 
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SignApp · Firma de contrato</title>
-<style>
-  :root{
-    --admin-header:#0c4b33;
-    --ink:#111827; --muted:#6b7280; --border:#e5e7eb;
-    --bg:#f8f8f8; --card:#fff; --accent:#1f6feb;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
-  header{background:var(--admin-header);color:#fff;padding:14px 20px}
-  main{max-width:760px;margin:20px auto;padding:0 16px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
-  h1{font-size:22px;margin:8px 0 14px}
-  p.muted{color:var(--muted);margin-top:0}
-  .alert{padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#f9fafb;font-size:14px}
-  .form-row{display:grid;gap:8px;margin:12px 0}
-  label{font-size:14px;color:#374151}
-  input[type="file"], .input{
-    padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;font-size:14px
-  }
-  .consent{display:flex;gap:10px;align-items:flex-start;margin:10px 0}
-  .btn{appearance:none;border:1px solid var(--border);background:#fff;color:#111827;padding:10px 14px;border-radius:10px;cursor:pointer;font-size:14px}
-  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-  .help{font-size:12px;color:var(--muted)}
-  .success{background:#ecfdf5;border-color:#bbf7d0}
-  .error{background:#fef2f2;border-color:#fecaca}
-  .footer{margin-top:12px;font-size:12px;color:var(--muted);text-align:center}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firma Digital de Contrato - SignApp</title>
+    <link rel="stylesheet" href="{% static 'css/simple_style.css' %}">
 </head>
 <body>
-<header style="background:#0c4b33; color:#fff; padding:12px 20px; display:flex; align-items:center;">
-  <img src="{% static 'images/logo.png' %}" alt="Logo de la empresa"
-      style="height: 75px; margin-right:12px; object-fit:contain;">
-  <h1 style="font-size:24px; font-weight:600; margin:0;">SignApp / Firma de contrato</h1>
-</header>
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="Logo Empresa" height="30">
+            <span class="app-name">Almar: Proceso de Contratación</span>
+            </div>
+        </div>
+    </header>
 
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="form-card">
+                <h2>Firma de Contrato Laboral</h2>
+                
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                
+                <p>
+                    Para completar su proceso de contratación, suba su imagen de firma y el contrato en PDF recibido. 
+                    El enlace es válido hasta el **{{ proceso.expira|date:"d M Y H:i" }}** ({{ proceso.fecha_expiracion|timesince }} restantes).
+                </p>
 
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-  <main>
-    <!-- Estado del token (simulado) -->
-    <div class="alert">
-      Enlace vigente. Tienes <strong>48 h</strong> para completar la firma desde su generación.
+                    <fieldset>
+                        <legend>Archivos Requeridos</legend>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.firma_img.id_for_label }}">1. Firma Digital (PNG o JPG):</label>
+                            {{ form.firma_img }}
+                            {% if form.firma_img.errors %}
+                                <div class="error-message">{{ form.firma_img.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.contrato_pdf.id_for_label }}">2. Documento a Firmar (PDF):</label>
+                            {{ form.contrato_pdf }}
+                            {% if form.contrato_pdf.errors %}
+                                <div class="error-message">{{ form.contrato_pdf.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <div class="consent-group">
+                        {{ form.consentimiento }}
+                        <label for="{{ form.consentimiento.id_for_label }}">{{ form.consentimiento.label }}</label>
+                        {% if form.consentimiento.errors %}
+                            <div class="error-message">{{ form.consentimiento.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="button-primary">
+                            Procesar y Firmar Contrato
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <section class="card" style="margin-top:14px">
-      <h1>Subir firma y contrato</h1>
-      <p class="muted">Por favor, sube tu <strong>firma</strong> y tu <strong>contrato</strong>. La imagen de la firma no será almacenada; solo se generará el PDF final.</p>
-
-      <div class="form-row">
-        <label for="firma">Imagen de firma (PNG/JPG)</label>
-        <input id="firma" type="file" accept=".png,.jpg,.jpeg" />
-        <span class="help">Recomendado: firma en fondo blanco, bien iluminada.</span>
-      </div>
-
-      <div class="form-row">
-        <label for="contrato">Contrato (PDF)</label>
-        <input id="contrato" type="file" accept="application/pdf,.pdf" />
-        <span class="help">Solo se aceptan archivos PDF.</span>
-      </div>
-
-      <div class="consent">
-        <input id="consent" type="checkbox" />
-        <label for="consent">Autorizo el uso de mi firma únicamente para generar el contrato en PDF. Entiendo que la imagen de la firma <strong>no</strong> será almacenada.</label>
-      </div>
-
-      <div class="form-row">
-        <button class="btn primary">Firmar contrato</button>
-        <button class="btn">Cancelar</button>
-      </div>
-    </section>
-
-    <!-- Pantalla de éxito (muestra/oculta según estado; aquí solo de ejemplo) -->
-    <section class="card success" style="margin-top:14px">
-      <strong>¡Listo!</strong> Tu contrato fue firmado correctamente.
-      <div class="form-row" style="margin-top:10px">
-        <a class="btn" href="#">Descargar PDF firmado</a>
-      </div>
-      <p class="help">También recibirás el PDF firmado a través del canal que RR.HH. defina.</p>
-    </section>
-
-    <!-- Pantalla de enlace expirado (ejemplo alterno) -->
-    <!--
-    <section class="card error" style="margin-top:14px">
-      <strong>Enlace expirado o inválido.</strong> Solicita un nuevo enlace a RR.HH.
-    </section>
-    -->
-
-    <p class="footer">© 2025 SignApp · Enlace temporal de firma</p>
-  </main>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} SignApp. Natalia Escobar.</p>
+        </div>
+    </footer>
 </body>
 </html>

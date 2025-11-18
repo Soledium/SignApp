@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error de Acceso - SignApp</title>
+    <link rel="stylesheet" href="{% static 'css/simple_style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <img src="{% static 'images/logo.png' %}" alt="Logo Empresa" height="30">
+                <span class="app-name">Almar: Proceso de Contratación</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="form-card error-card">
+                
+                <h2 style="color: #c9302c;">Acceso Denegado 🔒</h2>
+                
+                {% if mensaje %}
+                    <p class="lead" style="font-weight: bold;">{{ mensaje }}</p>
+                {% else %}
+                    <p class="lead" style="font-weight: bold;">El enlace al que intentas acceder no es válido.</p>
+                {% endif %}
+
+                <p>
+                    Esto puede deberse a que:
+                    <ul>
+                        <li>El enlace **ha caducado** (es válido por 48 horas).</li>
+                        <li>El contrato **ya fue firmado** anteriormente.</li>
+                        <li>El *token* en la URL es incorrecto.</li>
+                    </ul>
+                </p>
+
+                <div class="form-actions">
+                    <a href="#" onclick="alert('Contacte al departamento de RR.HH. para solicitar un nuevo enlace.')" class="button-secondary">
+                        Contactar a RR.HH.
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} SignApp. Natalia Escobar.</p>
+        </div>
+    </footer>
+</body>
+</html>
