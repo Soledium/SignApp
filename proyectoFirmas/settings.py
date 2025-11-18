@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-%47^@eqtvolz6o3!*a7k(hvc&r+)ri7hrqy4)jt3byd%683-zt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://signapp-hrj2.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['signapp-hrj2.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -124,6 +124,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
