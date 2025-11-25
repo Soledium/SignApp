@@ -14,11 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# proyectoFirmas/urls.py
+
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
 from signapp import views 
 
+
+def redirect_to_admin(request):
+    """Redirige la URL raíz a la URL del admin."""
+    return redirect('admin:index') 
+
 urlpatterns = [
+    path('', redirect_to_admin, name='home'), 
+    
     path('admin/', admin.site.urls), 
     
     path('firma/<str:token>/', views.candidato_view, name='firma_contrato'),
