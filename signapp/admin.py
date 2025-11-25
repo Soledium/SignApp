@@ -16,7 +16,7 @@ class ProcesoAdmin(admin.ModelAdmin):
 
 
     fieldsets = (
-        ("Datos del proceso", {"fields": ("ref_rrhh",)}),
+        ("Datos del proceso", {"fields": ("ref_rrhh","candidato_email"),}),
         ("Enlace (solo lectura)", {"fields": ("token", "creado", "expira", "link"),}),
         ("Estado", {"fields": ("estado",),}),
         ("Documento final", {"fields": ("pdf_firmado", "pdf_hash"),}),

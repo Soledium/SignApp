@@ -9,7 +9,8 @@ def candidato_view(request, token):
         proceso = get_object_or_404(Proceso, token=token)
     except Http404:
         return render(request, 'error_enlace.html', {'mensaje': 'Enlace inválido o inexistente.'})
-    if proceso.ha_expirado:
+        
+    if proceso.ha_expirado(): 
         if proceso.estado != Proceso.Estado.EXPIRADO:
             proceso.estado = Proceso.Estado.EXPIRADO
             proceso.save()
