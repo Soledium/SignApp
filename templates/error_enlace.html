@@ -8,14 +8,16 @@
     <title>Error de Acceso - SignApp</title>
     <link rel="stylesheet" href="{% static 'css/simple_style.css' %}">
 </head>
-<body>
+<body class="container-fluid mt-2" style="background-color: #f5f4ea;">
     <header class="navbar">
-        <div class="container">
-            <div class="navbar-brand">
-                <img src="{% static 'images/logo.png' %}" alt="Logo Empresa" height="30">
-                <span class="app-name">Almar: Proceso de Contratación</span>
-            </div>
-        </div>
+        <nav class="container-fluid bg-dark p-3 mb-3 rounded">
+            <ul class="container-fluid d-flex align-items-center">
+                <span class="app-name me-auto" style="color:#FFE4C4; font-size: 40px; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+                    Almar: Proceso de Contratación
+                </span>
+                <img class="ms-auto mt-2" src="{% static 'images/logo.png' %}" height="100" alt="Logo">
+            </ul>       
+        </nav>
     </header>
 
     <div class="content-wrapper">

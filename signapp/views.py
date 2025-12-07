@@ -6,7 +6,7 @@ from django.http import Http404
 
 
 def candidato_view(request, token):
-    # 1) Buscar proceso por token
+    # Buscar proceso por token
     try:
         proceso = get_object_or_404(Proceso, token=token)
     except Http404:
@@ -16,27 +16,19 @@ def candidato_view(request, token):
             {'mensaje': 'Enlace inválido o inexistente.'}
         )
 
-    # 2) Validar expiración
+    # Validar expiración
     if proceso.ha_expirado():
         if proceso.estado != Proceso.Estado.EXPIRADO:
             proceso.estado = Proceso.Estado.EXPIRADO
             proceso.save()
             
-        return render(
-            request,
-            'error_enlace.html',
-            {'mensaje': 'El enlace ha expirado (48 horas). Contacte a RR.HH.'}
-        )
+        return render(request,'error_enlace.html',{'mensaje': 'El enlace ha expirado (48 horas). Contacte a RR.HH.'})
     
-    # 3) Validar si ya fue usado
+    # Validar si ya fue usado
     if proceso.estado == Proceso.Estado.USADO or proceso.usado:
-        return render(
-            request,
-            'error_enlace.html',
-            {'mensaje': 'El contrato ya fue firmado y el enlace es de uso único.'}
-        )
+        return render(request,'error_enlace.html',{'mensaje': 'El contrato ya fue firmado y el enlace es de uso único.'})
 
-    # 4) Procesar formulario
+    # Procesar formulario
     if request.method == "POST":
         form = FirmaContratoForm(request.POST, request.FILES)
 
@@ -65,19 +57,11 @@ def candidato_view(request, token):
             proceso.save()
 
             return render(
-                request,
-                "candidato_ok.html",
-                {"proceso": proceso}
-            )
+                request,"candidato_ok.html",{"proceso": proceso})
     else:
         form = FirmaContratoForm()
 
-    # 5) GET (form vacío)
+    # GET (form vacío)
     return render(
-        request,
-        "candidato.html",
-        {
-            'proceso': proceso,
-            'form': form
-        }
+        request,"candidato.html",{'proceso': proceso,'form': form}
     )
