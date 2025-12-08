@@ -11,8 +11,19 @@ class FirmaContratoForm(forms.Form):
     )
 
     consentimiento = forms.BooleanField(
-        label='Acepto que la imagen de mi firma sea estampada de forma digital e irreversible en el contrato seleccionado por RR.HH.',
-        required=True
+        label=(
+            "Acepto que la imagen de mi firma sea estampada de forma digital "
+            "en el contrato seleccionado por RR.HH."
+        ),
+        required=True,
+    )
+
+    confirmacion = forms.BooleanField(
+        label=(
+            "Entiendo que al firmar digitalmente el contrato, acepto los términos "
+            "y condiciones establecidos en el mismo."
+        ),
+        required=True,
     )
     
     def clean_firma_img(self):

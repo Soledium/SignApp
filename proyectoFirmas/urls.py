@@ -20,6 +20,8 @@ from django.contrib import admin
 from django.urls import path
 from django.shortcuts import redirect
 from signapp import views 
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def redirect_to_admin(request):
@@ -33,3 +35,6 @@ urlpatterns = [
     
     path('firma/<str:token>/', views.candidato_view, name='firma_contrato'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
