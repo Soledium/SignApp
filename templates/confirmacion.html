@@ -9,19 +9,18 @@
 </head>
 <body class="container-fluid mt-2" style="background-color: #f5f4ea;">
 
-    <!-- Header -->
-    <nav class="container-fluid bg-dark p-3 mb-3 rounded">
+
+    <nav class="container-fluid bg-white p-3 mb-3 rounded shadow-sm">
         <ul class="container-fluid d-flex align-items-center">
-            <span class="app-name me-auto" style="color:#FFE4C4; font-size: 40px; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+            <span class="app-name me-auto" style="color: goldenrod; font-size: 40px; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
                 Almar: Proceso de Contratación
             </span>
             <img class="ms-auto mt-2" src="{% static 'images/logo.png' %}" height="100" alt="Logo">
         </ul>       
     </nav>
 
-    <!-- Contenido principal -->
     <div class="container d-flex justify-content-center">
-        <div class="alert alert-success w-100 w-md-75 shadow-sm" role="alert">
+        <div class="alert bg-white w-100 w-md-75 shadow-sm" role="alert">
             <h4 class="alert-heading">¡Contrato firmado correctamente! ✅</h4>
             <p class="mb-2">
                 Hemos recibido su firma digital y el contrato ha sido procesado de forma exitosa.
@@ -48,7 +47,7 @@
         </div>
     </div>
 
-    <footer class="text-center mt-3 mb-3 p-3 bg-dark rounded" style="color:#FFE4C4; font-size:25px; font-weight:400; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">
+    <footer class="text-center mt-5 p-3 bg-dark rounded" style="color:#FFE4C4; font-size:25px; font-weight:400; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">
         Almar Ltda. &copy; {% now "Y" %}. Todos los derechos reservados.
     </footer>
 

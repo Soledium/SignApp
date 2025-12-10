@@ -6,6 +6,8 @@ class PlantillaContrato(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     archivo = models.FileField(upload_to="contratos/plantillas/")
     activo = models.BooleanField(default=True)
+    pagina_firma = models.PositiveIntegerField(default=1, help_text="Página donde se ubicará la firma.")
+    firma_ancho_rel = models.FloatField(default=0.3, help_text="Ancho relativo de la firma (En el ancho de la página).")
 
     def __str__(self):
         return self.nombre
@@ -32,7 +34,6 @@ class Proceso(models.Model):
     acceso_link = models.DateTimeField(blank=True, null=True)
 
     def ha_expirado(self):
-        """Verifica si la fecha de expiración ha sido superada."""
         return timezone.now() > self.expira
     
     def __str__(self) -> str:

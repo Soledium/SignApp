@@ -10,29 +10,24 @@ from .models import Proceso, PlantillaContrato
 
 @admin.register(PlantillaContrato)
 class PlantillaContratoAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "activo")
+    list_display = ("nombre", "activo", "pagina_firma")
     list_filter = ("activo",)
     search_fields = ("nombre",)
+    fields = (
+        "nombre",
+        "descripcion",
+        "archivo",
+        "activo",
+        "pagina_firma",
+        "firma_ancho_rel",
+    )
 
 
 @admin.register(Proceso)
 class ProcesoAdmin(admin.ModelAdmin):
-    list_display = (
-        "ref_rrhh",
-        "candidato_email",
-        "plantilla",
-        "estado",
-        "creado",
-        "expira",
-        "link",
-        "pdf",
-    )
-    list_filter = (
-        "estado",
-        ("creado", admin.DateFieldListFilter),
-        ("expira", admin.DateFieldListFilter),
-    )
-    search_fields = ("ref_rrhh", "candidato_email", "pdf_hash", "token")
+    list_display = ("ref_rrhh","candidato_email","plantilla","estado","creado","expira","link","pdf",)
+    list_filter = ("estado",("creado", admin.DateFieldListFilter),("expira", admin.DateFieldListFilter),)
+    search_fields = ("ref_rrhh", "candidato_email", 'estado',)
     date_hierarchy = "creado"
     ordering = ("-creado",)
 
@@ -47,19 +42,17 @@ class ProcesoAdmin(admin.ModelAdmin):
             "fields": ("estado",),
         }),
         ("Documento final", {
-            "fields": ("pdf_firmado", "pdf_hash"),
+            "fields": ("pdf_firmado",),
         }),
     )
 
-    # Estos campos no los edita RR.HH. a mano
-    readonly_fields = ("token", "creado", "expira", "link", "pdf_hash", "pdf_firmado")
+    readonly_fields = ("token", "creado", "expira", "link", "pdf_hash", "pdf_firmado", "estado",)
 
     def has_delete_permission(self, request, obj=None):
-        # Solo superusuario puede borrar procesos
+        # solo superusuario puede borrar procesos
         return request.user.is_superuser
 
     def link(self, obj):
-        """Enlace público para el candidato."""
         if not obj.token:
             return format_html('<span style="color: grey;">(Pendiente)</span>')
         url = f"/firma/{obj.token}/"
@@ -67,7 +60,6 @@ class ProcesoAdmin(admin.ModelAdmin):
     link.short_description = "Enlace Público"
 
     def pdf(self, obj):
-        """Link de descarga al PDF firmado, si existe."""
         if obj.pdf_firmado:
             return format_html(
                 '<a href="{0}" target="_blank">Descargar</a>',
@@ -77,12 +69,11 @@ class ProcesoAdmin(admin.ModelAdmin):
     pdf.short_description = "PDF firmado"
 
     def save_model(self, request, obj, form, change):
-        """Al crear un proceso nuevo, se genera token y fecha de expiración (48 h)."""
         if not obj.pk:
-            # 48 horas desde ahora
+            # 48 horas de validez
             obj.expira = timezone.now() + timedelta(hours=48)
 
-            # Generar token firmado basado en UUID + ref_rrhh
+            # generar token único
             signer = Signer()
             unique_id = str(uuid.uuid4())
             data = f"{unique_id}:{obj.ref_rrhh}"
