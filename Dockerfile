@@ -22,10 +22,9 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
-ENV SECRET_KEY "mHFZi4kfdaknig56yGuV34EWCJTAUxiY15bQZzOx0blqbfySWU"
+ENV SECRET_KEY "ZUQWX4WfSvhTCviJASE8AYywL2UKaUPZJ7DUNhUCk0nVTVSirm"
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "proyectoFirmas.wsgi"]
-
+CMD ["gunicorn","--bind",":8000","--workers","2","--worker-class","uvicorn.workers.UvicornWorker","proyectoFirmas.asgi"]

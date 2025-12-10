@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for signapp on 2025-11-25T22:49:38-03:00
+# fly.toml app configuration file generated for signapp on 2025-12-10T04:23:38-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,8 +10,7 @@ console_command = '/code/manage.py shell'
 [build]
 
 [deploy]
-  release_command = "python manage.py migrate --noinput && python manage.py createsuperuser --noinput || true"
-
+  release_command = 'python manage.py migrate --noinput'
 
 [env]
   PORT = '8000'
@@ -28,7 +27,8 @@ console_command = '/code/manage.py shell'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 1024
 
 [[statics]]
-  guest_path = '/code/staticfiles'
+  guest_path = '/code/static'
   url_prefix = '/static/'
