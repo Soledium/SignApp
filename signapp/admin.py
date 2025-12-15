@@ -10,16 +10,12 @@ from .models import Proceso, PlantillaContrato
 
 @admin.register(PlantillaContrato)
 class PlantillaContratoAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "activo", "pagina_firma")
+    list_display = ("nombre", "activo", "pagina_firma",)
     list_filter = ("activo",)
     search_fields = ("nombre",)
-    fields = (
-        "nombre",
-        "descripcion",
-        "archivo",
-        "activo",
-        "pagina_firma",
-        "firma_ancho_rel",
+    fieldsets = (
+        ("Información", {"fields": ("nombre", "archivo", "activo")}),
+        ("Firma", {"fields": ("pagina_firma", "firma_x_rel", "firma_y_rel", "firma_ancho_rel", "firma_alto_rel")}),
     )
 
 
