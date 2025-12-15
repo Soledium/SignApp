@@ -33,7 +33,8 @@ console_command = '/code/manage.py shell'
   guest_path = '/code/static'
   url_prefix = '/static/'
 
-[mounts]
+[[mounts]]
   source = "firmas_data"
   destination = "/data"
+
 
