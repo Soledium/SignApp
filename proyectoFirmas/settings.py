@@ -28,7 +28,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = 'django-insecure-%47^@eqtvolz6o3!*a7k(hvc&r+)ri7hrqy4)jt3byd%683-zt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '.fly.dev', # Permite subdominios de Fly.io (mejor seguridad)
