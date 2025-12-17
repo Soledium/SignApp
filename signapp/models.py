@@ -28,7 +28,9 @@ class Proceso(models.Model):
     candidato_cargo = models.CharField(max_length=120, blank=True, null=True)
     candidato_fecha_ingreso = models.DateField(blank=True, null=True)
 
-    plantilla = models.ForeignKey(PlantillaContrato, on_delete=models.PROTECT)
+    plantilla = models.ForeignKey(PlantillaContrato, on_delete=models.PROTECT, blank=True, null=True)
+    pdf_empresa = models.FileField(upload_to="contratos/base_rrhh/", blank=True, null=True)
+
 #link unico
     token = models.SlugField(unique=True, db_index=True)
     estado = models.CharField(max_length=10,choices=Estado.choices,default=Estado.VIGENTE,db_index=True,)
@@ -36,9 +38,11 @@ class Proceso(models.Model):
     creado = models.DateTimeField(auto_now_add=True, db_index=True)
     expira = models.DateTimeField(db_index=True)
     pdf_firmado = models.FileField(upload_to="contratos/firmados/", blank=True, null=True)
-    creado_en = models.DateTimeField(auto_now_add=True)
+
+    pagina_firma = models.PositiveIntegerField(default = 1, verbose_name = "Pagina donde se aloja la firma en el PDF")
+    firma_x_rel = models.FloatField(blank=True, null=True, verbose_name="Posición X de la firma", help_text="Número entre 0 y 1. Ejemplo: 0.5 = centro horizontal.")
+    firma_y_rel = models.FloatField(blank=True, null=True, verbose_name="Posición Y de la firma", help_text="Número entre 0 y 1. Ejemplo: 0.75 = parte inferior de la página.")
     pdf_hash = models.CharField(max_length=70, blank=True, null=True)
-    
     acceso_link = models.DateTimeField(blank=True, null=True)
 
     def ha_expirado(self):
@@ -46,5 +50,4 @@ class Proceso(models.Model):
     
     def __str__(self) -> str:
         return f"{self.ref_rrhh} - {self.candidato_email}"
-
-
+    

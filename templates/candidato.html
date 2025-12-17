@@ -39,16 +39,21 @@
                     <p class="mb-1">
                         Antes de firmar, por favor revise el documento de contrato asociado a su proceso:
                     </p>
-                    {% if proceso.plantilla.archivo %}
-                        <a href="{{ proceso.plantilla.archivo.url }}" target="_blank" class="btn btn-sm btn-primary">
-                            Ver / Descargar contrato en PDF
-                        </a>
+                    {% if proceso.pdf_empresa %}
+                    <a href="{{ proceso.pdf_empresa.url }}" target="_blank" class="btn btn-sm btn-primary">
+                        Ver / Descargar contrato en PDF
+                    </a>
+                    {% elif proceso.plantilla and proceso.plantilla.archivo %}
+                    <a href="{{ proceso.plantilla.archivo.url }}" target="_blank" class="btn btn-sm btn-primary">
+                        Ver / Descargar contrato en PDF
+                    </a>
                     {% else %}
-                        <p class="mb-0 text-danger">
-                            No se encontró el contrato base asociado a este proceso. 
-                            Por favor, contacte a Recursos Humanos.
-                        </p>
+                    <p class="mb-0 text-danger">
+                        No se encontró el contrato base asociado a este proceso.
+                        Por favor, contacte a Recursos Humanos.
+                    </p>
                     {% endif %}
+
                 </div>
 
                 <p>
